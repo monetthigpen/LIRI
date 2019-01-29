@@ -47,8 +47,8 @@ else if(val1 === "spotify-this-song"){
   var spotify = new Spotify({id:process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET})
   var songName = process.argv.slice(3).join("-");
 
-  spotify.search({type: "track", query: songName || "the sign", limit: 1}, function(err,data){
-    console.log(songName)
+  spotify.search({type: "track", query: songName || "single ladies", limit: 1}, function(err,data){
+    //console.log(songName)
     //console.log(data.tracks.items[0].album);
     //console.log(data.tracks.items[0].artists.external_urls)
     console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name );
@@ -81,7 +81,7 @@ else if(val1 === "do-what-it-says"){
     var spotify = new Spotify({id:process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET})
     var songName = process.argv.slice(3).join("-");
 
-    spotify.search({type: "track", query: dataArr[1] || "the sign", limit: 1}, function(err,data){
+    spotify.search({type: "track", query: dataArr[1] , limit: 1}, function(err,data){
       console.log(songName)
       
       console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name );

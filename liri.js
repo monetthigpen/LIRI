@@ -8,7 +8,7 @@ var fs = require("fs");
 
 var axios = require("axios");
 var val1 = process.argv[2];
-var val2 = process.argv[3];
+var val2 = process.argv.slice(3).join("");
 var http = require("http");
 
 
@@ -43,23 +43,21 @@ if(val1 === "movie-this"){
 
 }
 else if(val1 === "spotify-this-song"){
-  var spotify = new Spotify({
-    id: "26dda30c2d6943f4928fb61109780820",
-    secret: "c259a1d1dae746fea43531b7100c34c3"
+  var spot = require("./key")
+  var spotify = new Spotify({id:process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET})
+  var songName = process.argv.slice(3).join("-");
+
+  spotify.search({type: "track", query: songName || "the sign", limit: 1}, function(err,data){
+    console.log(songName)
+    //console.log(data.tracks.items[0].album);
+    //console.log(data.tracks.items[0].artists.external_urls)
+    console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name );
+    console.log("Name of Song: " + data.tracks.items[0].name );
+    console.log("Preview Link of Song: " + data.tracks.items[0].href );
+    console.log("Album: " + data.tracks.items[0].album.name );
+  
   })
-   
   
-  
-  spotify.search( "https://api.spotify.com/v1/search?query="+val2+"&type=track&offset=0&limit=1").then(
-    function(response){
-      console.log(response.data);
-      console.log("Artist(s): "  );
-      console.log("Name of Song: " );
-      console.log("Preview Link of Song: "  );
-      console.log("Album: "  );
-    }
-   
-  )
 
   
 }
@@ -79,27 +77,27 @@ else if(val1 === "do-what-it-says"){
   
     
     console.log(dataArr[1]);
-    var spotify = new Spotify({
-      id: "26dda30c2d6943f4928fb61109780820",
-      secret: "c259a1d1dae746fea43531b7100c34c3"
-    })
-     
-    
-    
-    spotify.search( "https://api.spotify.com/v1/search?query="+dataArr[1]+"&type=track&offset=0&limit=1").then(
-      function(response){
-        console.log(response.data);
-        console.log("Artist(s): "  );
-        console.log("Name of Song: " );
-        console.log("Preview Link of Song: "  );
-        console.log("Album: "  );
-      }
-     
-    )
+    var spot = require("./key")
+    var spotify = new Spotify({id:process.env.SPOTIFY_ID, secret: process.env.SPOTIFY_SECRET})
+    var songName = process.argv.slice(3).join("-");
 
+    spotify.search({type: "track", query: dataArr[1] || "the sign", limit: 1}, function(err,data){
+      console.log(songName)
+      
+      console.log("Artist(s): " + data.tracks.items[0].album.artists[0].name );
+      console.log("Name of Song: " + data.tracks.items[0].name );
+      console.log("Preview Link of Song: " + data.tracks.items[0].href );
+      console.log("Album: " + data.tracks.items[0].album.name );
   
-  });
+    })
+  
+      
+     
+    
+  
+  
+  }
 
 
 
-}
+  )}
